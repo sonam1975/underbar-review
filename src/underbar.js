@@ -141,6 +141,13 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+
+    var result = [];
+    var func = function(element) {
+      return result.push(iterator(element));
+    };
+    _.each(collection, func);
+    return result;
   };
 
   /*
@@ -182,6 +189,30 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    if (Array.isArray(collection)) {
+      if (accumulator !== undefined) {
+        var memo = accumulator;
+        for (var i = 0; i < collection.length; i++) {
+          memo = iterator(memo, collection[i]);
+        }
+      } else {
+        var memo = collection[0];
+        for (var i = 1; i < collection.length; i++) {
+          memo = iterator(memo, collection[i]);
+        }
+      }
+
+
+    } else {
+
+      var memo = accumulator;
+      for (var key in collection) {
+        memo = iterator(memo, collection[key]);
+      }
+    }
+
+
+    return memo;
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -200,12 +231,36 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    if (iterator === undefined) {
+      return _.reduce(collection, function (allMatch, item) {
+        if (!item) {
+          return false;
+        }
+        return allMatch;
+      }, true);
+    } else {
+      return _.reduce(collection, function (allMatch, item) {
+        if (!iterator(item)) {
+          return false;
+        }
+        return allMatch;
+      }, true);
+    }
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if (iterator === undefined) {
+      var iterator = _.identity;
+    }
+    var length = collection.length;
+    if (_.every(collection, iterator)) {
+      return true;
+    } else {}
+
+
   };
 
 

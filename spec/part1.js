@@ -342,7 +342,7 @@
         expect(uniqueNumbers).to.not.equal(numbers);
       });
 
-      
+
     });
 
     describe('map', function() {
@@ -378,7 +378,7 @@
       });
 
       it('should apply a function to every value in an array', function() {
-        var multiplyByTwo = FILL_ME_IN;
+        var multiplyByTwo = function(x){return 2 * x;};
 
         expect(_.map([1, 2, 3], multiplyByTwo)).to.eql([2, 4, 6]);
       });
@@ -401,7 +401,7 @@
           { name: 'curly', age: 50 }
         ];
 
-        expect(_.pluck(people, 'name')).to.FILL_ME_IN(['moe', 'curly']);
+        expect(_.pluck(people, 'name')).to.eql(['moe', 'curly']);
       });
 
       it('should not modify the original array', function() {
@@ -412,9 +412,10 @@
 
         _.pluck(people, 'name');
 
-        expect(people).to.FILL_ME_IN([{ name: 'moe', age: 30 }, { name: 'curly', age: 50 }]);
+        expect(people).to.eql([{ name: 'moe', age: 30 }, { name: 'curly', age: 50 }]);
       });
     });
+
 
     describe('reduce', function() {
 
@@ -472,6 +473,7 @@
           // FILL_ME_IN
           // Add a line here that makes this test pass
           // for a working implementation of reduce
+          memo = orderTraversed.push(item);
           return memo;
         }, 10);
 
@@ -501,7 +503,7 @@
         expect(result).to.equal(4);
       });
 
-      it('Fill me in with a description of the behavior this test is checking for', function() {
+      it('should also pass accumulator set to be 0 as 0 ', function() {
         var result = _.reduce([1, 2, 3], function(memo, item) {
           return memo * item;
         }, 0);
